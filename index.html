@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -28,25 +28,40 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             padding: 40px;
-            text-align: center;
             color: white;
         }
 
+        .header-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
         .logo {
-            width: 200px;
-            height: 80px;
+            width: 150px;
+            height: 150px;
             background: white;
-            margin: 0 auto 20px;
-            border-radius: 10px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .header-text h1 {
+            font-size: 36px;
+            margin: 0 0 5px 0;
         }
 
         h1 {
@@ -94,8 +109,8 @@
 
         input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
         }
 
         .btn-reset {
@@ -114,6 +129,37 @@
             background: #c82333;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .btn-maps {
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #4285F4 0%, #1f6ec6 100%);
+            color: white;
+            border: 1px solid #1f6ec6;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-left: 10px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-maps svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .btn-maps:hover {
+            background: linear-gradient(135deg, #1f6ec6 0%, #1557b0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(66, 133, 244, 0.5);
         }
 
         .results-info {
@@ -135,7 +181,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: white;
         }
 
@@ -176,8 +222,17 @@
                 padding: 20px;
             }
 
-            h1 {
-                font-size: 24px;
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header-text {
+                text-align: center;
+            }
+
+            .header-text h1 {
+                font-size: 28px;
             }
 
             .filters, .table-container {
@@ -195,14 +250,26 @@
             th, td {
                 padding: 10px;
             }
+
+            .btn-maps {
+                display: block;
+                margin: 8px 0 0 0;
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Annuaire des Prestataires de Soins</h1>
-            <p class="subtitle">Trouvez rapidement votre prestataire de santé</p>
+            <div class="header-top">
+                <img src="logo.png" alt="Company Logo" class="logo" id="logoPlaceholder">
+                <div class="header-text">
+                    <h1>Annuaire des Prestataires de Soins</h1>
+                    <p class="subtitle">Trouvez rapidement votre prestataire de santé</p>
+                </div>
+            </div>
         </div>
 
         <div class="filters">
@@ -241,6 +308,7 @@
                         <th>Nom Prénom</th>
                         <th>Région</th>
                         <th>Adresse</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -254,98 +322,97 @@
 
     <script>
         const data = [
-            {type: "Pharmacie de jour", name: "Zeineb Bahri", region: "CUN", address: "Centre Urbain Nord"},
-            {type: "Pharmacie de jour", name: "Ahmed Ennaifer", region: "BARDO 2", address: "79 Av. Habib Bougatfa, Bardo 2"},
-            {type: "Pharmacie de jour", name: "Mohamed Nejib ELAMRI", region: "MORNAGUIA", address: "11,avenue habib bourguiba Mornaguia"},
+            {type: "Centre de radiologie", name: "Centre d'imagerie LGR", region: "AOUINA", address: "Résidence Salma, Bloc 'F', 2éme étage n°4, Dar Fadhal, L'Aouina Tunis"},
+            {type: "Centre de radiologie", name: "Avicenne", region: "MANAR", address: "MANAR Tunis"},
+            {type: "Pharmacie de jour", name: "Zeineb Bahri", region: "CUN", address: "Centre Urbain Nord Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Nesrine Gannoun", region: "BELVEDER", address: "23 RUE DU DR ALPHONSE LAVERAN BELVEDER Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Lamia Mechmech", region: "SIDI HSSINE", address: "101 AV DE L'ENVIRONEMENT Sidi Hssine Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Raja Aissaoui", region: "TEBOURBA", address: "CENTRE AVICENNEAVENUE MONGI SLIM Tebourba Manouba"},
+            {type: "Laboratoire d'analyse médicale", name: "Dr Atf Kamoun", region: "MANAR", address: "Résidence les Jasmins Bloc D,2éme étage,app12,Rue Habib El Chatti Manar 1 Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Rabaa Hichri", region: "MNIHLA", address: "Echifaa Centre Médicale,1er étage Route de Bizerte Km 4,5 (à coté Municipalité Mnihla) Ariana"},
+            {type: "Laboratoire d'analyse médicale", name: "Aicha Benzarti", region: "MOHAMED V", address: "ENTRE AV MOHAMED AV KHAIER EDDINE BECHA Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Bio Quality Lab", region: "MENZAH 9", address: "40 Avenue Salah Ben Youssef, Tunis 1013 Menzah 9 Tunis"},
+            {type: "Pharmacie de jour", name: "Ahmed Ennaifer", region: "BARDO 2", address: "79 Av. Habib Bougatfa, Bardo 2 Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Sami El Cadhi", region: "ARIANA", address: "Centre médical Alpha, rue Mustapha Mohsen, Borj Louzir Ariana"},
+            {type: "Laboratoire d'analyse médicale", name: "Olfa Marrakchi", region: "CUN", address: "Centre Médical Pasteur/ Clinique Pasteur mezzanine Cab. M2 Centre Tunis"},
+            {type: "Pharmacie de jour", name: "Mohamed Nejib ELAMRI", region: "MORNAGUIA", address: "11,avenue habib bourguiba Mornaguia Manouba"},
             {type: "Pharmacie de jour", name: "Hichem Bouattour", region: "BARDO", address: "63 avenue Habib Bourguiba Bardo Tunis."},
             {type: "Pharmacie de jour", name: "Raoudha Bahri", region: "BEN AROUS", address: "Avenue Habib Bourguiba,Ben Arous"},
-            {type: "Pharmacie de jour", name: "Sihem Belkehia", region: "MONTPLAISIR", address: "43 Avenue du JaponMontplaisir"},
-            {type: "Pharmacie de jour", name: "Leila GAIEB", region: "MARSA", address: "16 RUE DES HAFSIDESLA MARSA"},
-            {type: "Pharmacie de jour", name: "Leila Azaiez", region: "FOUCHENA", address: "Avenue de la LibertéRoute de Zaghouane FOUCHENA"},
-            {type: "Pharmacie de jour", name: "Hela ben Mnedi", region: "LAC 1", address: "Lac 1"},
-            {type: "Pharmacie de jour", name: "MERIEM KHEMIRI", region: "FOUCHENA", address: "AVENUE 7 NOVEMBRE"},
-            {type: "Pharmacie de jour", name: "MOHAMED KHESSAIRI", region: "ROUTE RAOUED", address: "03, Rue IBN HAMDOUN, Cebalat"},
-            {type: "Pharmacie de jour", name: "CHOKRI FRIKHA", region: "CITEE ETTAHRIR", address: "53 Rue 6854 ETAHRIR SUPERIEUR"},
-            {type: "Pharmacie de jour", name: "Amel Sanaa", region: "MOHAMED V", address: "83 AV MOHAMED 5 1002 BELVEDERE TUNIS"},
-            {type: "Pharmacie de jour", name: "Moufida Bouzouita", region: "LAC 1", address: "1, Rue du Lac Liman Imm. Hilal, les berges du lac"},
+            {type: "Centre de radiologie", name: "Mohamed Karray", region: "BELVEDER", address: "97 Bis rue de Palestine, Tunis Belvédère Tunis"},
+            {type: "Pharmacie de jour", name: "Sihem Belkehia", region: "MONTPLAISIR", address: "43 Avenue du JaponMontplaisir Tunis"},
+            {type: "Pharmacie de jour", name: "Leila GAIEB", region: "MARSA", address: "16 RUE DES HAFSIDESLA MARSA Tunis"},
+            {type: "Pharmacie de jour", name: "Leila Azaiez", region: "FOUCHENA", address: "Avenue de la LibertéRoute de Zaghouane FOUCHENA Ben Arous"},
+            {type: "Pharmacie de jour", name: "Hela ben Mnedi", region: "LAC 1", address: "Lac 1 Tunis"},
+            {type: "Pharmacie de jour", name: "MERIEM KHEMIRI", region: "FOUCHENA", address: "AVENUE 7 NOVEMBRE Ben Arous"},
+            {type: "Pharmacie de jour", name: "MOHAMED KHESSAIRI", region: "ROUTE RAOUED", address: "03, Rue IBN HAMDOUN, Cebalat Ariana"},
+            {type: "Pharmacie de jour", name: "CHOKRI FRIKHA", region: "CITEE ETTAHRIR", address: "53 Rue 6854 ETAHRIR SUPERIEUR  Tunis"},
+            {type: "Pharmacie de jour", name: "Amel Sanaa", region: "MOHAMED V", address: "83  AV MOHAMED 5 1002 BELVEDERE  TUNIS"},
+            {type: "Centre de radiologie", name: "Mourad Ben Younes", region: "MOUROUJ 1", address: "Carrefour Médical –Avenue des Martyrs-El Mourouj1 Ben Arous"},
+            {type: "Pharmacie de jour", name: "Moufida Bouzouita", region: "LAC 1", address: "1, Rue du Lac Liman Imm. Hilal, les berges du lac Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "Mouna Mnasri", region: "FOUCHENA", address: "06 Avenue de la liberté FOUCHENA Ben Arous"},
+            {type: "Laboratoire d'analyse médicale", name: "Meriem Boujlel", region: "MORNAGUIA", address: "6 B,BASSATINE CITE ESSAD Mornaguia Manouba"},
+            {type: "Opticien", name: "Clin d'Œil", region: "ARIANA", address: "50 AVENUE HABIB BOURGUIBA Ariana Tunisie"},
+            {type: "Opticien", name: "AR OPTIC", region: "MOUROUJ 6", address: "8 AVENUE DES MARTYRES RESIDENCE HAMZA EL MOUROUJ 6 Ben Arous"},
+            {type: "Opticien", name: "GLOBAL OPTIQUE", region: "SFAX", address: "Rue Mongi Slim Kassas Sakiet Ezzit SFAX"},
+            {type: "Opticien", name: "Optic Zorgati", region: "SOUSSE", address: "Av Ibn Jazar Sousse"},
+            {type: "Opticien", name: "SAOUSSEN MAHFOUDHI", region: "KHEZMA", address: "Khzema Est à côté traveltodo, SOUSSE"},
             {type: "Pharmacie de jour", name: "KAMMOUN MOHAMED AMINE", region: "BEN AROUS", address: "5 avenue Habib Bourguiba, Hammam Lif, Ben Arous"},
             {type: "Pharmacie de jour", name: "Mrad Mustapha", region: "ARIANA", address: "Rue Ali Belhaouane - Résidence les Roses Ariana Ville Ariana"},
             {type: "Pharmacie de jour", name: "BOUHEJBA SAWSSEN EP FOURATI", region: "EZZAHRA", address: "110, Avenue Habib Bourguiba Ezzahra Ben arous"},
-            {type: "Pharmacie de jour", name: "LAHMAR HAMDI", region: "LAC 1", address: "40 Rue Lac Léman Les Berges Du Lac 1 immeuble LAGO."},
+            {type: "Pharmacie de jour", name: "LAHMAR HAMDI", region: "LAC 1", address: "40 Rue Lac Léman Les Berges Du Lac 1 immeuble LAGO Tunis"},
+            {type: "Centre de radiologie", name: "GHARBI HASSEN IBN ZOHR", region: "CITE KHADRA", address: "Centre Ibn Zohr, Cité Khadra Tunis"},
+            {type: "Centre de radiologie", name: "IRM BEN AROUS", region: "BEN AROUS", address: "GP1 KM 8 CHOUCHET RADES RADES  2040 BEN AROUS"},
             {type: "Pharmacie de jour", name: "KHALIL DOUIK", region: "SOUSSE", address: "AV HABIB BOURGUIBA THAMER SOUSSE"},
             {type: "Pharmacie de jour", name: "ADEL HERGULI", region: "MONASTIR", address: "Avenue 14 Janvier 2011 Data, Monastir"},
             {type: "Pharmacie de jour", name: "WISSAL JRAD", region: "THRAYETT", address: "Boulevard de l'Environnement, Zaouit-Ksibat - Thrayett SOUSSE"},
             {type: "Pharmacie de jour", name: "Mhamed Lahmer", region: "JENDOUBA", address: "Rue Sakiet Sidi Youssef Jendouba, 8100 jendouba"},
             {type: "Pharmacie de jour", name: "Hasni Abdelfateh", region: "BOUSALEM", address: "Rue des Jardin Bou Salem"},
-            {type: "Pharmacie de jour", name: "Abdellatif Boujnah", region: "BEJA", address: "Avenue Mongi Slim 9000 Beja"},
-            {type: "Pharmacie de jour", name: "Anouar Belhareth", region: "BOUSALEM", address: "8 Rue Taieb Mhiri"},
+            {type: "Pharmacie de jour", name: "Anouar Belhareth", region: "BOUSALEM", address: "8 Rue Taieb Mhiri BOUSALEM"},
             {type: "Pharmacie de jour", name: "Boouthaina Bouani", region: "JENDOUBA", address: "1. Place Transport Terrestre , Boulevard 9 avril , Jendouba 8100"},
-            {type: "Pharmacie de jour", name: "Mohamed Amin Kammoun", region: "BEN AROUS", address: "5 Av. Habib Bourguiba, Hammam-Lif 2050"},
-            {type: "Pharmacie de jour", name: "Hasna Lamouchi (pharmacie les jasmins)", region: "CUN", address: "Immeuble Nour City RDC Magasin N°8"},
-            {type: "Pharmacie de jour", name: "MONIA BARKA ROUIS", region: "NABEUL", address: "91, Avenue Habib Bourguiba Dar Chaabene"},
-            {type: "Pharmacie de jour", name: "AMEL HANCHA", region: "MATEUR", address: "CITE OMRAN 2"},
-            {type: "Pharmacie de jour", name: "KHALI RABAI", region: "BEJA", address: "34 AVENUE DE LA REPUBLIQUE"},
-            {type: "Pharmacie de jour", name: "ALOUANE BOUNAWAS", region: "BEJA", address: "2, Place du 2 Mars 1934 9000 Béjà"},
-            {type: "Pharmacie de jour", name: "ABDELLATIF BOUJNEH", region: "BEJA", address: "Avenue Mongi Slim 9000 Beja"},
-            {type: "Centre de radiologie", name: "Centre d'imagerie LGR", region: "AOUINA", address: "Résidence Salma, Bloc 'F', 2éme étage n°4, Dar Fadhal, L'Aouina."},
-            {type: "Centre de radiologie", name: "Avicenne", region: "MANAR", address: "MANAR"},
-            {type: "Centre de radiologie", name: "Mohamed Karray", region: "BELVEDER", address: "97 Bis rue de Palestine, Tunis Belvédère"},
-            {type: "Centre de radiologie", name: "Mourad Ben Younes", region: "MOUROUJ 1", address: "Carrefour Médical –Avenue des Martyrs-El Mourouj1"},
-            {type: "Centre de radiologie", name: "GHARBI HASSEN IBN ZOHR", region: "CITE KHADRA", address: "Centre Ibn Zohr, Cité Khadra"},
-            {type: "Centre de radiologie", name: "IRM BEN AROUS", region: "BEN AROUS", address: "GP1 KM 8 CHOUCHET RADES RADES 2040"},
-            {type: "Centre de radiologie", name: "LEILA ZOUARI", region: "SOUSSE", address: "IMMEUBLE CITE CENTRE DEVANT HOMITAL SAHLOUL SOUSSE"},
-            {type: "Laboratoire d'analyse médicale", name: "Nesrine Gannoun", region: "BELVEDER", address: "23 RUE DU DR ALPHONSE LAVERAN BELVEDER"},
-            {type: "Laboratoire d'analyse médicale", name: "Lamia Mechmech", region: "SIDI HSSINE", address: "101 AV DE L'ENVIRONEMENT Sidi Hssine"},
-            {type: "Laboratoire d'analyse médicale", name: "Raja Aissaoui", region: "TEBOURBA", address: "CENTRE AVICENNEAVENUE MONGI SLIM Tebourba Manouba"},
-            {type: "Laboratoire d'analyse médicale", name: "Dr Atf Kamoun", region: "MANAR", address: "Résidence les Jasmins Bloc D,2éme étage,app12,Rue Habib El Chatti Manar 1"},
-            {type: "Laboratoire d'analyse médicale", name: "Rabaa Hichri", region: "MNIHLA", address: "Echifaa Centre Médicale,1er étage Route de Bizerte Km 4,5 (à coté Municipalité Mnihla)"},
-            {type: "Laboratoire d'analyse médicale", name: "Aicha Benzarti", region: "MOHAMED V", address: "ENTRE AV MOHAMED AV KHAIER EDDINE BECHA"},
-            {type: "Laboratoire d'analyse médicale", name: "Bio Quality Lab", region: "MENZAH 9", address: "40 Avenue Salah Ben Youssef, Tunis 1013 Menzah 9"},
-            {type: "Laboratoire d'analyse médicale", name: "Sami El Cadhi", region: "ARIANA", address: "Centre médical Alpha, rue Mustapha Mohsen, Borj Louzir"},
-            {type: "Laboratoire d'analyse médicale", name: "Olfa Marrakchi", region: "CUN", address: "Centre Médical Pasteur/ Clinique Pasteur mezzanine Cab. M2 Centre"},
-            {type: "Laboratoire d'analyse médicale", name: "Mouna Mnasri", region: "FOUCHENA", address: "06 Avenue de la liberté FOUCHENA"},
-            {type: "Laboratoire d'analyse médicale", name: "Meriem Boujlel", region: "MORNAGUIA", address: "6 B,BASSATINE CITE ESSAD Mornaguia"},
             {type: "Laboratoire d'analyse médicale", name: "Nejla Trad", region: "JENDOUBA", address: "Avenue Ali Belahouane 8100 Jendouba, Jendouba"},
             {type: "Laboratoire d'analyse médicale", name: "Nejem Souli", region: "JENDOUBA", address: "Centre Médical Ennakhil : Avenue Habib Bourguiba Apt 01 (Rez de Chaussée) - Jendouba"},
             {type: "Laboratoire d'analyse médicale", name: "Bechir Hmissi", region: "BEJA", address: "56, Av. de La République - Immeuble Kandil 9000 Béjà"},
             {type: "Laboratoire d'analyse médicale", name: "Faten Amdouni", region: "JENDOUBA", address: "Centre Médical Kenza Tulipe, Avenue Habib Bourguiba (à coté du Gouvernorat) - 8100 Jendouba"},
             {type: "Laboratoire d'analyse médicale", name: "Naoufel Nabli", region: "SOUSSE", address: "Immmobilière Médicale Essalem Avenue de l'UMA juste à coté Clinique ESSALEM Sousse، 4000"},
+            {type: "Centre de radiologie", name: "LEILA ZOUARI", region: "SOUSSE", address: "IMMEUBLE CITE CENTRE DEVANT HOMITAL SAHLOUL SOUSSE"},
             {type: "Laboratoire d'analyse médicale", name: "Kmar Jrah", region: "MONASTIR", address: "Avenue du combattant suprême, Monastir"},
-            {type: "Médecin Généraliste", name: "KHALED JELASSI", region: "CUN", address: "APP N24 IMMEUBLE NOUR CITY CENTRE URBAIN NORD"},
-            {type: "Médecin Généraliste", name: "RABAA MATHLOUTHI", region: "MANAR", address: "12 AVENUE ROI ABDEAZIZ ALSAOUDIMMEUBLE SIS APP M1"},
-            {type: "Opticien", name: "Clin d'Œil", region: "ARIANA", address: "50 AVENUE HABIB BOURGUIBA Ariana Ariana Tunisie"},
-            {type: "Opticien", name: "AR OPTIC", region: "MOUROUJ 6", address: "8 AVENUE DES MARTYRES RESIDENCE HAMZA EL MOUROUJ 6"},
-            {type: "Opticien", name: "GLOBAL OPTIQUE", region: "SFAX", address: "Rue Mongi Slim Kassas Sakiet Ezzit SFAX"},
-            {type: "Opticien", name: "Optic Zorgati", region: "SOUSSE", address: "Av Ibn Jazar Sousse"},
-            {type: "Opticien", name: "SAOUSSEN MAHFOUDHI", region: "KHEZMA", address: "Khzema Est à côté traveltodo, SOUSSE"},
-            {type: "Opticien", name: "GLOBAL OPTIQUE", region: "SFAX", address: "Avenue Habib Bourguiba,Imm Intilaka 2 Beb Bhar SFAX"},
-            {type: "Opticien", name: "GLOBAL OPTIQUE", region: "SFAX", address: "Av 14 Janvier Imm Aida SFAX"},
-            {type: "Opticien", name: "GLOBAL OPTIQUE", region: "SFAX", address: "Route Gremda 0,5km Beb El Jebli imm Jebli centre SFAX"},
-            {type: "Opticien", name: "GLOBAL OPTIQUE", region: "AOUINA", address: "Cite Wahat Aouina Residence Al Anwar Tunis"},
-            {type: "Clinique", name: "Clinique EL MOUROUJ", region: "MOUROUJ", address: "El Mourouj, Tunisie"},
-            {type: "Clinique", name: "Clinique Montplaisir", region: "MONTPLAISIR", address: "rue 8010 N°3 Montplaisir 1073-Tunis"},
-            {type: "Clinique", name: "Clinique La Rose", region: "LAC 2", address: "Immeuble la rose avenue de la bourse, Les jardins du lac, Tunis 1053, Tunisie"},
-            {type: "Clinique", name: "Clinique Amilcar", region: "ENNASR", address: "lotissement Panorama Ennasr 1 croisement Hédi Nouira Borj Turki Ariana"},
-            {type: "Clinique", name: "Clinique les Jasmins", region: "CENTRE URBAIN NORD", address: "Centre Urbain Nord"},
-            {type: "Clinique", name: "Clinique Ezzahra", region: "EZZAHRA", address: "Rue Abu El Kacem Ezzahraoui,Ezzahra 2034 Ben Arous"},
-            {type: "Clinique", name: "Clinique Hannibal", region: "LAC 2", address: "Cité les pins, les Berges du Lac 2"},
-            {type: "Clinique", name: "Clinique Soukra", region: "SOUKRA", address: "Rue Cheikh Mohamed Enneifer,Soukra"},
-            {type: "Clinique", name: "Clinique Carthagène", region: "CENTRE URBAIN NORD", address: "Centre Urbain Nord"},
-            {type: "Clinique", name: "Clinique El Taoufik", region: "Tunis", address: "Avenue de la ligues des Etats Arabes"},
-            {type: "Clinique", name: "Clinique ENNASR", region: "ENNASR", address: "50, Avenue de l'Ere Nouvelle Ennasr II Ariana, 2037, Tunisie"},
-            {type: "Clinique", name: "Clinique Bardo", region: "BARDO", address: "24 Avenue Taieb Mhiri, 2000 Le Bardo"},
-            {type: "Clinique", name: "Clinique EL AMEN", region: "Mutuelleville", address: "20 - 22 Rue Azziza Othmana، Tunis 1082, Tunisie"},
-            {type: "Clinique", name: "Clinique EL AMEN", region: "Marsa", address: "P9, Carthage, Tunisie"},
-            {type: "Clinique", name: "Clinique La Concorde", region: "SOUSSE", address: "Cité Boukhzar Bouhsina, 4002 Sousse"},
-            {type: "Clinique", name: "Clinique EL YOSR", region: "SOUSSE", address: "10 bis Rue Haroun Errachid, Sousse 4000"},
-            {type: "Clinique", name: "Clinique ESSALEM", region: "SOUSSE", address: "Lycée des Jeunes Filles, P1 Ave Tahar Sfar, Sousse 4000"},
-            {type: "Clinique", name: "Clinique EL HABIB", region: "Monastir", address: "Av Avicenne, Monastir 5000"},
-            {type: "Clinique", name: "Clinique EL AMEN", region: "NABEUL", address: "Avenue Hédi Nouira, Nabeul, Tunisie"},
-            {type: "Clinique", name: "Clinique EL AMEN", region: "Cité El Jala", address: "Bizerte, Tunisie"},
-            {type: "Clinique", name: "Clinique EL AMEN", region: "BEJA", address: "BEJA"},
-            {type: "Clinique", name: "Clinique EL YOSRI", region: "GAFSA", address: "Rue de palestine, cité ENNOUR Gafsa 2100 Gafsa, Tunisie"},
-            {type: "Clinique", name: "Clinique EL AMEN", region: "GAFSA", address: "GAFSA"},
-            {type: "Clinique", name: "Clinique les Anges", region: "Jandouba", address: "Av. 9 Avril, Jendouba 8100"}
+            {type: "Pharmacie de jour", name: "Mohamed Amin Kammoun", region: "BEN AROUS", address: "5 Av. Habib Bourguiba, Hammam-Lif 2050 BEN AROUS"},
+            {type: "Pharmacie de jour", name: "Hasna Lamouchi (pharmacie les jasmins)", region: "CUN", address: "Immeuble Nour City RDC Magasin N°8 Tunis"},
+            {type: "Pharmacie de jour", name: "MONIA BARKA ROUIS", region: "NABEUL", address: "91, Avenue Habib Bourguiba Dar Chaabene NABEUL"},
+            {type: "Pharmacie de jour", name: "AMEL HANCHA", region: "MATEUR", address: "CITE OMRAN 2 BIZERTE"},
+            {type: "Pharmacie de jour", name: "SEIF ALLAH BAHRI", region: "BATTAN", address: "85 avenue de la révolution, el battan 1114 Manouba"},
+            {type: "Pharmacie de jour", name: "HAYET HAMMEMI", region: "TEBOURBA", address: "Avenue Mongi Slim 1130 Tebourba - MANOUBA, La Manouba."},
+            {type: "Pharmacie de jour", name: "HASSEN AZAIEZ", region: "JEDAIDA", address: "Avenue Habib Bourguiba Manouba"},
+            {type: "Pharmacie de jour", name: "HASSEN MAKAADI", region: "TEBOURBA", address: "17 AV HABIB BORGUIBA Manouba"},
+            {type: "Laboratoire d'analyse médicale", name: "ICHRAF BEL HADJ", region: "MATEUR", address: "10, Rue Errahma - Mateur 7030 BIZERTE"},
+            {type: "Laboratoire d'analyse médicale", name: "KHALED MEGDUICH", region: "LAC 1", address: "1053 Lac Argentino, Tunis"},
+            {type: "Laboratoire d'analyse médicale", name: "HAJER GARGOURI", region: "LAC2", address: "Cité les pins 2080 lac 2 TUNIS"},
+            {type: "Pharmacie de jour", name: "HAYET GHADDAB", region: "MONASTIR", address: "Avenue Habib Bourguiba à Monastir"},
+            {type: "Centre de radiologie", name: "BOCHRA ENNAIER", region: "JENDOUBA", address: "59 Rue Ali Belhouane (en face de la Place de Martyrs et à côté de Centre Médicale Nourane). Ville Jendouba"},
+            {type: "Clinique", name: "EL MOUROUJ", region: "MOUROUJ", address: "El Mourouj, Tunisie"},
+            {type: "Clinique", name: "MONTPLAISIR", region: "MONTPLAISIR", address: "rue 8010 N°3 Montplaisir 1073-Tunis"},
+            {type: "Clinique", name: "La rose", region: "LAC 2", address: "Immeuble la rose avenue de la bourse, Les jardins du lac, Tunis 1053, Tunisie"},
+            {type: "Clinique", name: "Amilcar", region: "ENNASR", address: "lotissement Panorama Ennasr 1 croisement Hédi Nouira Borj Turki Ariana"},
+            {type: "Clinique", name: "les Jasmins", region: "CENTRE URBAIN NORD", address: "Centre Urbain Nord"},
+            {type: "Clinique", name: "EZZAHRA", region: "EZZAHRA", address: "Rue Abu El Kacem Ezzahraoui,Ezzahra 2034 Ben Arous"},
+            {type: "Clinique", name: "Hannibal", region: "LAC 2", address: "Cité les pins, les Berges du Lac 2"},
+            {type: "Clinique", name: "Soukra", region: "SOUKRA", address: "Rue Cheikh Mohamed Enneifer,Soukra"},
+            {type: "Clinique", name: "Carthagène", region: "CENTRE URBAIN NORD", address: "Centre Urbain Nord"},
+            {type: "Clinique", name: "El Taoufik", region: "Tunis", address: "Avenue de la ligues des Etats Arabes Tunis"},
+            {type: "Clinique", name: "ENNASR", region: "ENNASR", address: "50, Avenue de l'Ere Nouvelle Ennasr II Ariana, 2037, Tunisie"},
+            {type: "Clinique", name: "BARDO", region: "BARDO", address: "24 Avenue Taieb Mhiri, 2000 Le Bardo"},
+            {type: "Clinique", name: "EL AMEN Mutuelleville", region: "Mutuelleville", address: "20 - 22 Rue Azziza Othmana،  Tunis 1082, Tunisie"},
+            {type: "Clinique", name: "EL AMEN Marsa", region: "Marsa", address: "P9, Carthage, Tunisie"},
+            {type: "Clinique", name: "La Concorde", region: "SOUSSE", address: "Cité Boukhzar Bouhsina, 4002 Sousse"},
+            {type: "Clinique", name: "EL YOSR", region: "SOUSSE", address: "10 bis Rue Haroun Errachid, Sousse 4000"},
+            {type: "Clinique", name: "ESSALEM", region: "SOUSSE", address: "Lycée des Jeunes Filles, P1 Ave Tahar Sfar, Sousse 4000"},
+            {type: "Clinique", name: "EL HABIB Monastir", region: "Monastir", address: "Av Avicenne, Monastir 5000"},
+            {type: "Clinique", name: "EL AMEN NABEUL", region: "NABEUL", address: "Avenue Hédi Nouira, Nabeul‎, Tunisie"},
+            {type: "Clinique", name: "EL AMEN Bizerte", region: "Cité El Jala", address: "Bizerte, Tunisie"},
+            {type: "Clinique", name: "EL AMEN BEJA", region: "BEJA", address: "BEJA"},
+            {type: "Clinique ", name: "EL YOSRI GAFSA", region: "GAFSA", address: "Rue de palestine, cité ENNOUR Gafsa 2100 Gafsa, Tunisie"},
+            {type: "Clinique", name: "EL AMEN GAFSA", region: "GAFSA", address: "GAFSA"},
+            {type: "Clinique", name: "les Anges Jendouba", region: "Jandouba", address: "Av. 9 Avril, Jendouba 8100"}
         ];
 
         let filteredData = [...data];
@@ -388,11 +455,13 @@
 
                 filteredData.forEach(item => {
                     const row = document.createElement('tr');
+                    const mapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(item.address + ', Tunisia')}`;
                     row.innerHTML = `
                         <td>${item.type}</td>
                         <td>${item.name}</td>
                         <td>${item.region}</td>
                         <td>${item.address}</td>
+                        <td><a href="${mapsUrl}" target="_blank" class="btn-maps"><svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>Carte</a></td>
                     `;
                     tbody.appendChild(row);
                 });
